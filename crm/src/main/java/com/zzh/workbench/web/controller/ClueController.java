@@ -81,4 +81,20 @@ public class ClueController {
         boolean flag = clueService.unbund(id);
         PrintJson.printJsonFlag(response,flag);
     }
+
+    @RequestMapping(value = "/getActivityListByNameAndNotByClueId.do")
+    public void getActivityListByNameAndNotByClueId(String activityName,String clueId,HttpServletResponse response){
+        Map<String,String> map = new HashMap<>();
+        map.put("activityName",activityName);
+        map.put("clueId",clueId);
+        List<Activity> aList = activityService.getActivityListByNameAndNotByClueId(map);
+        PrintJson.printJsonObj(response,aList);
+    }
+
+    @RequestMapping(value = "/bund.do")
+    public void bund(String clueId,String[] activityId,HttpServletResponse response){
+        boolean flag = clueService.bund(clueId,activityId);
+
+        PrintJson.printJsonFlag(response,flag);
+    }
 }

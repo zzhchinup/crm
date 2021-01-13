@@ -20,6 +20,8 @@ request.getContextPath() + "/";
 	var cancelAndSaveBtnDefault = true;
 	
 	$(function(){
+
+
 		$("#remark").focus(function(){
 			if(cancelAndSaveBtnDefault){
 				//设置remarkDiv的高度为130px
@@ -56,6 +58,84 @@ request.getContextPath() + "/";
 
 		// 页面加载完毕之后，取出市场活动信息列表
 		showActivityList();
+
+		$("#activityName").on("keydown",function (event){
+			if(event.keyCode==13){
+				// alert("cahxun");
+
+				// 展现完列表后，将模态窗口默认的回车行为禁用掉
+				$.ajax({
+					url:"workbench/clue/getActivityListByNameAndNotByClueId.do",
+					data:{
+						"activityName":$.trim($("#activityName").val()),
+						"clueId":"${clue.id}"
+					},
+					type:"get",
+					dataType:"json",
+					success:function (data){
+						/*
+							data
+							[{市场活动1}{2}{3}]
+						 */
+						var html = "";
+						$.each(data,function (i,n){
+							html += '<tr>'
+							html += '	<td><input type="checkbox" name="xz" value="'+n.id+'"/></td>';
+							html += '	<td>'+n.name+'</td>';
+							html += '	<td>'+n.startDate+'</td>';
+							html += '	<td>'+n.endDate+'</td>';
+							html += '	<td>'+n.owner+'</td>';
+							html += '</tr>';
+						})
+						$("#activitySearchBody").html(html);
+					}
+				})
+				return false;
+			}
+		})
+
+		$("#bundBtn").on("click",function (){
+
+			var $xz = $("input[name=xz]:checked");
+
+			if(0==$xz.length){
+				alert("请选择需要选中的市场活动");
+			}else {
+
+				var param ="clueId=${clue.id}&";
+				for(var i=0;i<$xz.length;i++){
+					param += "activityId="+$($xz[i]).val();
+					if(i<$xz.length-1){
+						param += "&";
+					}
+				}
+				$.ajax({
+					url:"workbench/clue/bund.do",
+					data:param,
+					type:"post",
+					dataType:"json",
+					success:function (data){
+						/*
+							data
+							{success}
+						 */
+						if(data.success){
+							// 刷新市场活动列表
+							// 清除搜索框中的信息，复选框清空，activitySearchBody清空
+							$("#activityName").val("");
+							$("input[name=xz]:checked").prop("unchecked");
+							$("#activitySearchBody").html("");
+							// 关闭模态窗口
+							$("#bundModal").modal("hide");
+							showActivityList();
+						}else {
+							alert("关联市场活动失败")
+						}
+					}
+				})
+			}
+		})
+
 	});
 	function showActivityList (){
 		$("#activityBody").html("");
@@ -125,7 +205,7 @@ request.getContextPath() + "/";
 					<div class="btn-group" style="position: relative; top: 18%; left: 8px;">
 						<form class="form-inline" role="form">
 						  <div class="form-group has-feedback">
-						    <input type="text" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
+						    <input type="text" class="form-control" id="activityName" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
 						    <span class="glyphicon glyphicon-search form-control-feedback"></span>
 						  </div>
 						</form>
@@ -141,8 +221,8 @@ request.getContextPath() + "/";
 								<td></td>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
+						<tbody id="activitySearchBody">
+							<%--<tr>
 								<td><input type="checkbox"/></td>
 								<td>发传单</td>
 								<td>2020-10-10</td>
@@ -155,13 +235,13 @@ request.getContextPath() + "/";
 								<td>2020-10-10</td>
 								<td>2020-10-20</td>
 								<td>zhangsan</td>
-							</tr>
+							</tr>--%>
 						</tbody>
 					</table>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">关联</button>
+					<button type="button" class="btn btn-primary" id="bundBtn" >关联</button>
 				</div>
 			</div>
 		</div>
