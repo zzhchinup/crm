@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zzh.workbench.dao.CustomerDao">
+    <select id="getCustomerNameList" resultType="String">
+        select name from tbl_customer where name like '%' #{name} '%'
+    </select>
+
 	<select id="getCustomerByName" resultType="com.zzh.workbench.domain.Customer">
         select * from tbl_customer where name=#{company};
     </select>

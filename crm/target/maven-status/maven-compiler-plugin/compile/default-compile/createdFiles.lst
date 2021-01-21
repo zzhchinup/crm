@@ -10,10 +10,12 @@ com\zzh\workbench\service\impl\ActivityServiceImpl.class
 com\zzh\workbench\domain\TranHistory.class
 com\zzh\settings\web\filter\LoginFilter.class
 com\zzh\vo\PaginationVO.class
+com\zzh\workbench\service\impl\TranServiceImpl.class
 com\zzh\settings\domain\DicType.class
 com\zzh\workbench\domain\ClueActivityRelation.class
 com\zzh\settings\dao\DicTypeDao.class
 com\zzh\settings\service\UserService.class
+com\zzh\workbench\service\CustomerService.class
 com\zzh\workbench\domain\Contacts.class
 com\zzh\settings\domain\User.class
 com\zzh\workbench\web\controller\ClueController.class
@@ -22,6 +24,7 @@ com\zzh\workbench\domain\ContactsRemark.class
 com\zzh\workbench\web\controller\ActivityController.class
 com\zzh\workbench\service\ActivityService.class
 com\zzh\workbench\service\impl\ClueServiceImpl.class
+com\zzh\workbench\service\TranService.class
 com\zzh\workbench\dao\CustomerRemarkDao.class
 com\zzh\workbench\dao\ContactsActivityRelationDao.class
 com\zzh\settings\dao\UserDao.class
@@ -29,6 +32,7 @@ com\zzh\workbench\dao\TranDao.class
 com\zzh\workbench\domain\ContactsActivityRelation.class
 com\zzh\utils\UUIDUtil.class
 com\zzh\settings\web\controller\UserController.class
+com\zzh\workbench\web\controller\TranController.class
 com\zzh\workbench\dao\ClueRemarkDao.class
 com\zzh\settings\service\DicService.class
 com\zzh\workbench\domain\Customer.class
@@ -37,6 +41,7 @@ com\zzh\workbench\dao\ContactsDao.class
 com\zzh\utils\PrintJson.class
 com\zzh\workbench\domain\ClueRemark.class
 com\zzh\workbench\dao\ClueActivityRelationDao.class
+com\zzh\workbench\service\impl\CustomerServiceImpl.class
 com\zzh\settings\web\listener\SysInitListener.class
 com\zzh\utils\DBUtil.class
 com\zzh\workbench\domain\Clue.class
