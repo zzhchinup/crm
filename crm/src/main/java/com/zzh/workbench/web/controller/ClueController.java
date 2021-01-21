@@ -9,6 +9,7 @@ import com.zzh.vo.PaginationVO;
 import com.zzh.workbench.domain.Activity;
 import com.zzh.workbench.domain.ActivityRemark;
 import com.zzh.workbench.domain.Clue;
+import com.zzh.workbench.domain.Tran;
 import com.zzh.workbench.service.ActivityService;
 import com.zzh.workbench.service.ClueService;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,27 @@ public class ClueController {
 
     @Resource
     private ActivityService activityService;
+
+    @RequestMapping(value = "/convert.do")
+    public String convert(String flag, String clueId, Tran tran, HttpServletRequest request){
+
+        String createBy = ((User)request.getSession().getAttribute("user")).getName();
+        if("a".equals(flag)){
+
+            String id = UUIDUtil.getUUID();
+            String createTime = DateTimeUtil.getSysTime();
+
+            tran.setId(id);
+            tran.setCreateTime(createTime);
+            tran.setCreateBy(createBy);
+        }
+        boolean flag1 = clueService.convert(flag,clueId,tran,createBy);
+        if(flag1){
+            return "/workbench/clue/index.jsp";
+        }
+        return null;
+
+    }
 
     @RequestMapping(value = "/getUserList.do")
     public void getUserList(HttpServletResponse response){
@@ -96,5 +118,12 @@ public class ClueController {
         boolean flag = clueService.bund(clueId,activityId);
 
         PrintJson.printJsonFlag(response,flag);
+    }
+
+    @RequestMapping(value="/getActivityListByName.do")
+    public void getActivityListByName(String aname,HttpServletResponse response){
+        List<Activity> aList = activityService.getActivityListByName(aname);
+
+        PrintJson.printJsonObj(response,aList);
     }
 }

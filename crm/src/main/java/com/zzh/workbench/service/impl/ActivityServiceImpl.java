@@ -30,6 +30,12 @@ public class ActivityServiceImpl implements ActivityService {
 
 
     @Override
+    public List<Activity> getActivityListByName(String aname) {
+        List<Activity> aList = activityDao.getActivityListByName(aname);
+        return aList;
+    }
+
+    @Override
     public List<Activity> getActivityListByClueId(String id) {
         List<Activity> aList = activityDao.getActivityListByClueId(id);
         return aList;
